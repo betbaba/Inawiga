@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from typing import Optional
 
 from phi.assistant import Assistant
@@ -8,8 +10,11 @@ from phi.embedder.ollama import OllamaEmbedder
 from phi.vectordb.pgvector import PgVector2
 from phi.storage.assistant.postgres import PgAssistantStorage
 
-db_url = "postgresql+psycopg://ai:ai@localhost:5532/ai"
+# Load environment variables from .env file
+load_dotenv()
 
+db_url = "postgresql+psycopg://ai:ai@localhost:5532/ai"
+groq_api_key = os.getenv("GROQ_API_KEY")
 
 def get_groq_assistant(
     llm_model: str = "llama3-70b-8192",
@@ -18,7 +23,7 @@ def get_groq_assistant(
     run_id: Optional[str] = None,
     debug_mode: bool = True,
 ) -> Assistant:
-    """Get a Dan Energy Assistant."""
+    """Get a Groq RAG Assistant."""
 
     # Define the embedder based on the embeddings model
     embedder = (
@@ -35,7 +40,7 @@ def get_groq_assistant(
         name="groq_rag_assistant",
         run_id=run_id,
         user_id=user_id,
-        llm=Groq(model=llm_model),
+        llm=Groq(model=llm_model, api_key=groq_api_key),
         storage=PgAssistantStorage(table_name="groq_rag_assistant", db_url=db_url),
         knowledge_base=AssistantKnowledge(
             vector_db=PgVector2(
@@ -46,19 +51,15 @@ def get_groq_assistant(
             # 2 references are added to the prompt
             num_documents=2,
         ),
-        description="You are an AI called 'Inawiga' and your task is to answer questions using the provided information",
+        description="You are an AI called 'INAWIGA' and your task is to answer questions using the provided information",
         instructions=[
             "When a user asks a question, you will be provided with information about the question.",
             "Carefully read this information and provide a clear and concise answer to the user.",
             "Do not use phrases like 'based on my knowledge' or 'depending on the information'.",
         ],
-        # This setting adds references from the knowledge_base to the user prompt
         add_references_to_prompt=True,
-        # This setting tells the LLM to format messages in markdown
         markdown=True,
-        # This setting adds chat history to the messages
         add_chat_history_to_messages=True,
-        # This setting adds 4 previous messages from chat history to the messages
         num_history_messages=4,
         add_datetime_to_instructions=True,
         debug_mode=debug_mode,
