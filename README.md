@@ -2,7 +2,7 @@
 
 This cookbook shows how to do retrieval-augmented generation (RAG) using Llama3 on Groq.
 
-For embeddings we can either use Ollama or OpenAI.
+For embeddings we can use Ollama.
 
 > Note: Fork and clone this repository if needed
 
@@ -28,18 +28,10 @@ Since Groq doesnt provide embeddings yet, you can either use Ollama or OpenAI fo
 ```shell
 ollama run nomic-embed-text
 ```
-
-- To use OpenAI for embeddings, export your OpenAI API key
-
-```shell
-export OPENAI_API_KEY=sk-***
-```
-
-
 ### 4. Install libraries
 
 ```shell
-pip install -r cookbook/llms/groq/rag/requirements.txt
+pip install requirements.txt
 ```
 
 ### 5. Run PgVector
@@ -49,7 +41,7 @@ pip install -r cookbook/llms/groq/rag/requirements.txt
 - Run using a helper script
 
 ```shell
-./cookbook/run_pgvector.sh
+.run_pgvector.sh
 ```
 
 - OR run using the docker run command
@@ -69,7 +61,7 @@ docker run -d \
 ### 6. Run RAG App
 
 ```shell
-streamlit run cookbook/llms/groq/rag/app.py
+streamlit run app.py
 ```
 
 - Open [localhost:8501](http://localhost:8501) to view your RAG app.
@@ -80,6 +72,4 @@ streamlit run cookbook/llms/groq/rag/app.py
   - What did Meta release?
   - Tell me more about the Llama 3 models?
 
-### 7. Message on [discord](https://discord.gg/4MtYHHrgA8) if you have any questions
-
-### 8. Star ⭐️ the project if you like it.
+### 7. Message on [linkedin](https://www.linkedin.com/in/bethlehem-getachew-52b85827b/) if you have any questions
