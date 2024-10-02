@@ -1,75 +1,62 @@
-# RAG with Llama3 on Groq
+Here's a detailed `README.md` for your RAG project using Llama3 on Groq:
 
-This cookbook shows how to do retrieval-augmented generation (RAG) using Llama3 on Groq.
+---
 
-For embeddings we can use Ollama.
+# Inawiga: Retrieval-Augmented Generation (RAG) with Llama3 on Groq
 
-> Note: Fork and clone this repository if needed
+Welcome to **Inawiga**, a Retrieval-Augmented Generation (RAG) system that leverages **Llama3** models on Groq for generating responses based on retrieved documents or website content. This project demonstrates the integration of Llama3 with embeddings from Ollama, using **PgVector** for vector storage and retrieval, and **Streamlit** for the web interface.
 
-### 1. Create a virtual environment
+## Table of Contents
 
-```shell
-python3 -m venv ~/.venvs/aienv
-source ~/.venvs/aienv/bin/activate
+- [Features](#features)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Using the App](#using-the-app)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+
+## Features
+
+- Upload PDFs or provide URLs for content retrieval.
+- Use Ollama for text embeddings (OpenAI can also be used).
+- Ask questions based on the content in real-time.
+- Integrated with PgVector for efficient vector storage.
+- Powered by Llama3 on Groq for generating high-quality, context-aware responses.
+- Easy-to-use Streamlit interface for interacting with the system.
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8+
+- Docker Desktop
+- Groq API Key (for using Llama3)
+- Ollama installed for embeddings
+
+## Using the App
+
+- **Add a PDF or URL:** You can upload a PDF file or input a URL to extract content.
+- **Ask questions:** After the content is processed, you can interact with it by asking questions, and the RAG system will generate responses based on the embedded information.
+
+### Example Questions:
+- What did Meta release in 2024?
+- Tell me more about the Llama3 models.
+
+## Tech Stack
+
+- **Llama3 on Groq:** For generating high-quality responses.
+- **Ollama:** For creating text embeddings used in content retrieval.
+- **PgVector:** PostgreSQL extension for storing and retrieving vectors efficiently.
+- **Streamlit:** For creating a web-based interface to interact with the RAG system.
+- **Docker:** For managing PgVector as a containerized service.
+
+## Project Structure
+
+```plaintext
+Inawiga/
+├── app.py               # Main Streamlit application
+├── requirements.txt     # Python dependencies
+├── .run_pgvector.sh     # Helper script to run PgVector
+├── README.md            # Project documentation (this file)
+└── other source files
 ```
-
-### 2. Export your Groq API Key
-
-```shell
-export GROQ_API_KEY=***
-```
-
-### 3. Use Ollama or OpenAI for embeddings
-
-Since Groq doesnt provide embeddings yet, you can either use Ollama or OpenAI for embeddings.
-
-- To use Ollama for embeddings [Install Ollama](https://github.com/ollama/ollama?tab=readme-ov-file#macos) and run the `nomic-embed-text` model
-
-```shell
-ollama run nomic-embed-text
-```
-### 4. Install libraries
-
-```shell
-pip install requirements.txt
-```
-
-### 5. Run PgVector
-
-> Install [docker desktop](https://docs.docker.com/desktop/install/mac-install/) first.
-
-- Run using a helper script
-
-```shell
-.run_pgvector.sh
-```
-
-- OR run using the docker run command
-
-```shell
-docker run -d \
-  -e POSTGRES_DB=ai \
-  -e POSTGRES_USER=ai \
-  -e POSTGRES_PASSWORD=ai \
-  -e PGDATA=/var/lib/postgresql/data/pgdata \
-  -v pgvolume:/var/lib/postgresql/data \
-  -p 5532:5432 \
-  --name pgvector \
-  phidata/pgvector:16
-```
-
-### 6. Run RAG App
-
-```shell
-streamlit run app.py
-```
-
-- Open [localhost:8501](http://localhost:8501) to view your RAG app.
-- Add websites or PDFs and ask question.
-
-- Example Website: https://techcrunch.com/2024/04/18/meta-releases-llama-3-claims-its-among-the-best-open-models-available/
-- Ask questions like:
-  - What did Meta release?
-  - Tell me more about the Llama 3 models?
-
-### 7. Message on [linkedin](https://www.linkedin.com/in/bethlehem-getachew-52b85827b/) if you have any questions
