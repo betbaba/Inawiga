@@ -1,7 +1,3 @@
-Here's a detailed `README.md` for your RAG project using Llama3 on Groq:
-
----
-
 # Inawiga: Retrieval-Augmented Generation (RAG) with Llama3 on Groq
 
 Welcome to **Inawiga**, a Retrieval-Augmented Generation (RAG) system that leverages **Llama3** models on Groq for generating responses based on retrieved documents or website content. This project demonstrates the integration of Llama3 with embeddings from Ollama, using **PgVector** for vector storage and retrieval, and **Streamlit** for the web interface.
